@@ -8,7 +8,10 @@ lx_dash=3.716
 
 #########################################################
 
-
+lx1=5
+lx2=4
+ly1=8
+ly2=10
 
 
 
@@ -215,7 +218,7 @@ def slab_design(lx,ly,support='Continuous'):
         count=1
 
 
-    return D,count,s.value
+    return D,count
 
 def beam_design(lx,ly,lx_dash=lx,wid=0.23,slab_D=125,secondary_beam=1,support="Simply Supported"):
     
@@ -246,18 +249,22 @@ def beam_design(lx,ly,lx_dash=lx,wid=0.23,slab_D=125,secondary_beam=1,support="S
     return max(D,D_dash)
 
 
-def column_design(lx1,ly1,lx2,ly2,slab_D=125):
-    slab_a=(lx1+lx2)*(ly1+ly2)
+def column_design(lx1,ly1,lx2,ly2,slab_D=125,beam_D=500,floor_ht=2.5445,wall_len=10,floor_no=2):
+    slab_a=(lx1+lx2)*(ly1+ly2)/4
     slab_wt=25*slab_a*slab_D/1000
     dl_screed=21*0.025*slab_a
     dl_floor=26*0.025*slab_a
     dl_plaster=20.4*0.0125*slab_a
-    dl_beam=25*secondary_beam*(lx+lx_dash)*0.23*0.23/2
+    dl_beam=(lx1+lx2+ly1+ly2)*beam_D*0.23*25/4000*1.25
     ll=2*slab_a
-    fl=1.5*(dl_beam+dl_floor+dl_plaster+dl_screed+ll+slab_wt)
-    pass
+    wl=0.115*20*floor_ht*wall_len
+    fl=1.5*(dl_beam+dl_floor+dl_plaster+dl_screed+ll+slab_wt+wl)*floor_no
+    Ag=(1.25*fl*1000)/(0.4*fck*0.985+0.67*fy*0.015)
+    return round(math.sqrt(Ag)/10)*10
 
 
-print(beam_design(lx,ly,lx_dash))
+print(slab_design(lx,ly))
+print(beam_design(lx,ly))
+print(column_design(lx1,ly1,lx2,ly2))
 
 # print(s.value)
