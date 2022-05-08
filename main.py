@@ -2,16 +2,16 @@ import math
 
 
 #################slab inputs###########################
-lx=5.945
-ly=6.073
-lx_dash=3.716
+lx=5.135
+ly=7.685
+lx_dash=2.6
 
 #########################################################
 
-lx1=5
-lx2=4
-ly1=8
-ly2=10
+lx1=9.3528
+lx2=7.6850
+ly1=7.955
+ly2=2.6*2
 
 
 
@@ -185,7 +185,7 @@ def slab_design(lx,ly,support='Continuous'):
     if lx > ly:
         lx,ly=ly,lx
     s=deflection_control()
-    s.pt=0.3
+    s.pt=0.15
 
     count=0
 
@@ -217,10 +217,11 @@ def slab_design(lx,ly,support='Continuous'):
         D=math.ceil((d+bar_size/2+cover("mild"))/10)*10
         count=1
 
+    
 
     return D,count
 
-def beam_design(lx,ly,lx_dash=lx,wid=0.23,slab_D=125,secondary_beam=1,support="Simply Supported"):
+def beam_design(lx,ly,lx_dash=lx,wid=0.23,slab_D=150,secondary_beam=1,support="Simply Supported"):
     
     if lx > ly:
         lx,ly=ly,lx
@@ -249,7 +250,7 @@ def beam_design(lx,ly,lx_dash=lx,wid=0.23,slab_D=125,secondary_beam=1,support="S
     return max(D,D_dash)
 
 
-def column_design(lx1,ly1,lx2,ly2,slab_D=125,beam_D=500,floor_ht=2.5445,wall_len=10,floor_no=2):
+def column_design(lx1,ly1,lx2,ly2,slab_D=160,beam_D=700,floor_ht=4.65,wall_len=10,floor_no=2):
     slab_a=(lx1+lx2)*(ly1+ly2)/4
     slab_wt=25*slab_a*slab_D/1000
     dl_screed=21*0.025*slab_a
